@@ -1,0 +1,167 @@
+<!-- ✅ Полный edit.html с расширенной кастомизацией -->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #111;
+      color: white;
+      padding: 20px;
+    }
+    h1 {
+      color: #0ff;
+    }
+    label {
+      display: block;
+      margin: 10px 0 4px;
+    }
+    input[type="text"], select, textarea, input[type="number"] {
+      width: 100%;
+      padding: 5px;
+      border-radius: 8px;
+      border: none;
+    }
+    .row {
+      display: flex;
+      gap: 10px;
+    }
+    .col {
+      flex: 1;
+    }
+    .section {
+      border: 1px solid #555;
+      border-radius: 16px;
+      padding: 15px;
+      margin-bottom: 20px;
+      background: #222;
+    }
+    .btn {
+      background: #0ff;
+      color: #000;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: #0cc;
+    }
+  </style>
+</head>
+<body>
+  <h1>Редактор "Пузырики 2.0 от КГБ"</h1>
+
+  <div class="section">
+    <label>Задания (по одному на строку)</label>
+    <textarea id="tasks" rows="6">1
+2
+3
+4
+5
+6</textarea>
+
+    <label>Изображение пузыря (URL)</label>
+    <input type="text" id="bubbleImage" placeholder="https://...">
+
+    <label>Фраза фидбека</label>
+    <input type="text" id="feedback" value="Well done!">
+
+    <label>Изображение фидбека (URL)</label>
+    <input type="text" id="feedbackImage" placeholder="https://...">
+
+    <label><input type="checkbox" id="noFeedbackText"> Без текста фидбека</label>
+  </div>
+
+  <div class="section">
+    <h2>Оформление заданий</h2>
+    <label><input type="checkbox" id="glassTask"> Эффект стекла</label>
+    <label><input type="checkbox" id="borderTask"> Рамка</label>
+    <label>Цвет рамки</label>
+    <input type="color" id="borderColorTask" value="#00ffff">
+    <label><input type="checkbox" id="borderNeonTask"> Неоновое свечение</label>
+    <label>Цвет свечения</label>
+    <input type="color" id="neonColorTask" value="#00ffff">
+    <label>Шрифт текста</label>
+    <select id="taskFont">
+      <option value="sans-serif">Sans-serif</option>
+      <option value="serif">Serif</option>
+      <option value="cursive">Cursive</option>
+      <option value="monospace">Monospace</option>
+    </select>
+    <label>Размер текста</label>
+    <input type="number" id="taskFontSize" value="36">
+    <label>Цвет текста</label>
+    <input type="color" id="taskTextColor" value="#ffee00">
+  </div>
+
+  <div class="section">
+    <h2>Оформление фидбека</h2>
+    <label><input type="checkbox" id="glassFeedback"> Эффект стекла</label>
+    <label><input type="checkbox" id="borderFeedback"> Рамка</label>
+    <label>Цвет рамки</label>
+    <input type="color" id="borderColorFeedback" value="#ff00ff">
+    <label><input type="checkbox" id="borderNeonFeedback"> Неоновое свечение</label>
+    <label>Цвет свечения</label>
+    <input type="color" id="neonColorFeedback" value="#ff00ff">
+    <label>Шрифт текста</label>
+    <select id="feedbackFont">
+      <option value="sans-serif">Sans-serif</option>
+      <option value="serif">Serif</option>
+      <option value="cursive">Cursive</option>
+      <option value="monospace">Monospace</option>
+    </select>
+    <label>Размер текста</label>
+    <input type="number" id="feedbackFontSize" value="36">
+    <label>Цвет текста</label>
+    <input type="color" id="feedbackTextColor" value="#00f55e">
+  </div>
+
+  <div class="section">
+    <h2>Общее</h2>
+    <label>Скругление углов (px)</label>
+    <input type="number" id="borderRadius" value="16">
+  </div>
+
+  <div class="section">
+    <button class="btn" onclick="generate()">Сгенерировать код</button>
+    <p id="result"></p>
+    <textarea id="iframeCode" rows="4" style="width:100%"></textarea>
+  </div>
+
+  <script>
+    function generate() {
+      const params = new URLSearchParams();
+      params.set("tasks", document.getElementById("tasks").value);
+      params.set("bubbleImage", document.getElementById("bubbleImage").value);
+      params.set("feedback", document.getElementById("feedback").value);
+      params.set("feedbackImage", document.getElementById("feedbackImage").value);
+      if (document.getElementById("noFeedbackText").checked) params.set("noFeedbackText", true);
+
+      if (document.getElementById("glassTask").checked) params.set("glassTask", true);
+      if (document.getElementById("borderTask").checked) params.set("borderTask", true);
+      params.set("borderColorTask", document.getElementById("borderColorTask").value);
+      if (document.getElementById("borderNeonTask").checked) params.set("borderNeonTask", true);
+      params.set("neonColorTask", document.getElementById("neonColorTask").value);
+      params.set("taskFont", document.getElementById("taskFont").value);
+      params.set("taskFontSize", document.getElementById("taskFontSize").value);
+      params.set("taskTextColor", document.getElementById("taskTextColor").value);
+
+      if (document.getElementById("glassFeedback").checked) params.set("glassFeedback", true);
+      if (document.getElementById("borderFeedback").checked) params.set("borderFeedback", true);
+      params.set("borderColorFeedback", document.getElementById("borderColorFeedback").value);
+      if (document.getElementById("borderNeonFeedback").checked) params.set("borderNeonFeedback", true);
+      params.set("neonColorFeedback", document.getElementById("neonColorFeedback").value);
+      params.set("feedbackFont", document.getElementById("feedbackFont").value);
+      params.set("feedbackFontSize", document.getElementById("feedbackFontSize").value);
+      params.set("feedbackTextColor", document.getElementById("feedbackTextColor").value);
+
+      params.set("borderRadius", document.getElementById("borderRadius").value);
+
+      const url = "https://nikashum93.github.io/pusyriki2.0/index.html?" + params.toString();
+      const iframe = `<iframe src="${url}" style="width:100%;height:100%" frameborder="0" allowfullscreen></iframe>`;
+      document.getElementById("iframeCode").value = iframe;
+    }
+  </script>
+</body>
+</html>
